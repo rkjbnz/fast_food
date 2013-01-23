@@ -18,10 +18,11 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'rspec'  
+  gem.add_development_dependency 'rspec'
   
   gem.add_runtime_dependency "capistrano"
   gem.add_runtime_dependency "capistrano-ext"
   gem.add_runtime_dependency "rvm-capistrano"
-  gem.add_runtime_dependency 'chef', '~> 0.10.8'
+  gem.add_runtime_dependency 'chef'
+  
 end
