@@ -8,7 +8,7 @@ namespace :deployment do
     spec = Gem::Specification.find_by_name("fast_food")
     gem_root = spec.gem_dir
     
-    `mkdir -p #{Rails.root}/chef && cp -R #{gem_root}/chef/* #{Rails.root}/chef && cp -R #{gem_root}/config/* #{Rails.root}/config`
+    `Capify . && mkdir -p #{Rails.root}/chef && cp -R #{gem_root}/chef/* #{Rails.root}/chef && cp -R #{gem_root}/config/* #{Rails.root}/config`
     
     print "\n\nPlease enter an application name (one word, or use underscores): "
     application_name = tidy_input(STDIN.gets)
