@@ -1,5 +1,5 @@
 require "fast_food/version"
 
 module FastFood
-  # Your code goes here...
+  require "fast_food/railtie" if defined?(Rails)
 end
