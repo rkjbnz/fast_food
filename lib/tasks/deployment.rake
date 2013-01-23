@@ -42,9 +42,10 @@ namespace :deployment do
     end
 
     # Add production database details.
-    if database_config["production"]["database"].nil? || database_config["production"]["database"]
+    if database_config["production"]["database"].nil? || database_config["production"]["database"] != "mysql2"
       puts "INSERTED: Database details"
 
+      database_config["production"]["adapter"] = "mysql2"
       database_config["production"]["database"] = database_name
       database_config["production"]["username"] = application_name[0, 16]
       database_config["production"]["password"] = random_characters
@@ -83,7 +84,7 @@ namespace :deployment do
       f.write(production_hash.to_json)
     end
 
-    puts "\nDone! Now commit your changes and run this: cap server_production setup:server\n\n"
+    puts "\nDone! Now run: cap server_production setup:server\n\n"
   end
 
   # Random alphanumeric characters.

@@ -11,11 +11,7 @@
     
     rake deployment:setup (Follow the prompts)
     
-    then
-    
     cap server_production setup:server
-    
-    then
     
     cap setup:site
     
