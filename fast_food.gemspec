@@ -23,6 +23,6 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "capistrano"
   gem.add_runtime_dependency "capistrano-ext"
   gem.add_runtime_dependency "rvm-capistrano"
-  gem.add_runtime_dependency 'chef'
+  gem.add_runtime_dependency 'chef', "~> 0.9.16"
   
 end
