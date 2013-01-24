@@ -8,6 +8,9 @@ namespace :deployment do
     spec = Gem::Specification.find_by_name("fast_food")
     gem_root = spec.gem_dir
     
+    puts gem_root
+    puts Rails.root
+    
     `Capify . && mkdir -p #{Rails.root}/chef && cp -R #{gem_root}/chef/* #{Rails.root}/chef && cp -R #{gem_root}/config/* #{Rails.root}/config`
     
     print "\n\nPlease enter an application name (one word, or use underscores): "
@@ -64,7 +67,6 @@ namespace :deployment do
         "username" => "#{database_config["production"]["username"]}",
         "password" => "#{database_config["production"]["password"]}"
       },
-      "mysql_root_password" => "#{random_characters(12)}",
       "run_list" => [ "role[mysql]","role[rvm]","role[passenger]","recipe[finalize]" ]
     }
     File.open(File.join("chef", "server_production.json"), "w+") do |f|

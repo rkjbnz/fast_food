@@ -46,7 +46,15 @@ end
 namespace :bootstrap do
   
   task :init do
-    run("curl -L https://gist.github.com/raw/2307959/ff2d251c9f4f149c5ca73c873ad8990711b3ca74/chef_solo_bootstrap.sh | bash")
+    run("apt-get -y update")
+    run("apt-get -y install curl build-essential zlib1g-dev libssl-dev libreadline-gplv2-dev lib64readline-gplv2-dev libyaml-dev")
+    run("wget ftp://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p194.tar.gz")
+    run("tar -xvzf ruby-1.9.3-p194.tar.gz")
+    run("cd ruby-1.9.3-p194 && ./configure --prefix=/usr/local")
+    run("cd ruby-1.9.3-p194 && make")
+    run("cd ruby-1.9.3-p194 && make install")
+    run("gem install chef ruby-shadow --no-ri --no-rdoc")
+    #run("curl -L https://gist.github.com/raw/2307959/ff2d251c9f4f149c5ca73c873ad8990711b3ca74/chef_solo_bootstrap.sh | bash")
     run("rm -rf /var/chef")
     system("tar czf 'chef.tar.gz' -C chef/ .")
     upload("chef.tar.gz", "/var/", :via => :scp)

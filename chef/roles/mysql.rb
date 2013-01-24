@@ -6,7 +6,7 @@ run_list(
 )
 override_attributes(
   :mysql => {
-    :server_root_password => node['mysql_root_password'],
+    #:server_root_password => you can enter in your root password here else its auto generated,
     :tunable => {
       :innodb_buffer_pool_size => "256M",
       :innodb_log_buffer_size => "8M",
