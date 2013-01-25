@@ -71,7 +71,7 @@ namespace :deployment do
         "server_debian_password" => "#{database_config["production"]["password"]}",
         "server_root_password" => "#{database_config["production"]["password"]}",
         "server_repl_password" => "#{database_config["production"]["password"]}"
-      }
+      },
       "run_list" => [ "recipe[mysql::server]","recipe[mysql::client]","role[apache2]","recipe[finalize]" ]
     }
     File.open(File.join("chef", "server_production.json"), "w+") do |f|
