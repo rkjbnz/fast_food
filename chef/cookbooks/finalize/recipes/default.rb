@@ -1,6 +1,8 @@
 include_recipe "imagemagick"
 include_recipe "imagemagick::devel"
 include_recipe "database::mysql"
+include_recipe "git"
+include_recipe "passenger_apache2"
 
 # create a mysql database
 mysql_database node['config']['database'] do

@@ -67,7 +67,12 @@ namespace :deployment do
         "username" => "#{database_config["production"]["username"]}",
         "password" => "#{database_config["production"]["password"]}"
       },
-      "run_list" => [ "role[mysql]","role[rvm]","role[passenger]","recipe[finalize]" ]
+      "mysql" => {
+        "server_debian_password" => "#{database_config["production"]["password"]}",
+        "server_root_password" => "#{database_config["production"]["password"]}",
+        "server_repl_password" => "#{database_config["production"]["password"]}"
+      }
+      "run_list" => [ "recipe[mysql::server]","recipe[mysql::client]","role[apache2]","recipe[finalize]" ]
     }
     File.open(File.join("chef", "server_production.json"), "w+") do |f|
       f.write(server_production_hash.to_json)
