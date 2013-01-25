@@ -10,7 +10,7 @@
 
     # Run this task to setup your initial configuration. This can be run on a completely fresh server
     # It installs and sets up ruby, git, mysql, apache, passenger and imagemagick. You will need your server ip address. Everything is done as root.
-    # (tested on ubuntu 10.04, 11.04 you might have to change the deploy.rb file different versions and distros)
+    # (tested on ubuntu 10.04, 11.04 you might have to change the deploy.rb file for different versions and distros)
     
     rake deployment:setup (Follow the prompts)
     
