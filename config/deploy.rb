@@ -1,5 +1,4 @@
 require "bundler/capistrano"
-require 'rvm/capistrano'
 require 'capistrano/ext/multistage'
 require "yaml"
 
@@ -11,8 +10,7 @@ set :default_stage, "production"
 default_run_options[:pty] = true 
 ssh_options[:forward_agent] = true
 
-set :rvm_string, "ruby-1.9.3-p374"
-set :rvm_type, :system
+set :ruby_string, "ruby-1.9.3-p374"
 
 set :application, application_config["application"]
 set :repository,  application_config["repository"]
@@ -48,13 +46,12 @@ namespace :bootstrap do
   task :init do
     run("apt-get -y update")
     run("apt-get -y install build-essential zlib1g-dev libssl-dev libreadline5-dev libyaml-dev")
-    run("wget ftp://ftp.ruby-lang.org/pub/ruby/1.9/#{rvm_string}.tar.gz")
-    run("tar -xvzf #{rvm_string}.tar.gz")
-    run("cd #{rvm_string} && ./configure --prefix=/usr/local")
-    run("cd #{rvm_string} && make")
-    run("cd #{rvm_string} && make install")
+    run("wget ftp://ftp.ruby-lang.org/pub/ruby/1.9/#{ruby_string}.tar.gz")
+    run("tar -xvzf #{ruby_string}.tar.gz")
+    run("cd #{ruby_string} && ./configure --prefix=/usr/local")
+    run("cd #{ruby_string} && make")
+    run("cd #{ruby_string} && make install")
     run("gem install chef bundler --no-ri --no-rdoc")
-    #run("curl -L https://gist.github.com/raw/2307959/ff2d251c9f4f149c5ca73c873ad8990711b3ca74/chef_solo_bootstrap.sh | bash")
     run("rm -rf /var/chef")
     system("tar czf 'chef.tar.gz' -C chef/ .")
     upload("chef.tar.gz", "/var/", :via => :scp)
