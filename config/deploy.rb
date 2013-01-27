@@ -4,8 +4,8 @@ require "yaml"
 
 application_config = YAML.load(File.open(File.join("config", "deployment.yml")))
 
-set :stages, %w(server_production production)
 set :default_stage, "production"
+set :default_shell, "bash"
 
 default_run_options[:pty] = true 
 ssh_options[:forward_agent] = true
@@ -17,10 +17,8 @@ set :repository,  application_config["repository"]
 set :deploy_to, "/var/www/#{application_config["application"]}"
 set :branch, "master"
 
-
 set :scm, :git
-set :scm_verbose, true
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
+set :scm_verbose, false
 
 set :deploy_via, :remote_cache
 set :use_sudo, true
@@ -32,8 +30,6 @@ set :chef_binary, "/usr/local/bin/chef-solo"
 load 'deploy/assets'
 
 namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
 
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
@@ -57,6 +53,8 @@ namespace :bootstrap do
     upload("chef.tar.gz", "/var/", :via => :scp)
     run("mkdir -p /var/chef")
     run("cd /var/ && sudo tar xzf 'chef.tar.gz' -C /var/chef")
+    
+    print "Server config done! Now commit and push your changes and run: cap setup:site"
   end
   
 end
@@ -73,20 +71,16 @@ namespace :chef do
   end
 end
 
-
 namespace :setup do
   
-  task :server do
+  task :go do
     transaction do
       bootstrap.init
       chef.default
+      deploy.setup
+      deploy.cold
+      chef.finalize
     end
-  end
-  
-  task :site do
-    deploy.setup
-    deploy.cold
-    chef.finalize
   end
   
 end

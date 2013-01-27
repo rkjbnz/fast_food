@@ -8,9 +8,6 @@ namespace :deployment do
     spec = Gem::Specification.find_by_name("fast_food")
     gem_root = spec.gem_dir
     
-    puts gem_root
-    puts Rails.root
-    
     `Capify . && mkdir -p #{Rails.root}/chef && cp -R #{gem_root}/chef/* #{Rails.root}/chef && cp -R #{gem_root}/config/* #{Rails.root}/config`
     
     print "\n\nPlease enter an application name (one word, or use underscores): "
@@ -60,32 +57,23 @@ namespace :deployment do
     end
     
     # Add Chef JSON details
-    server_production_hash = { 
-      "config" => {
-        "host" => "localhost",
-        "database" => "#{database_config["production"]["database"]}",
-        "username" => "#{database_config["production"]["username"]}",
-        "password" => "#{database_config["production"]["password"]}"
-      },
-      "mysql" => {
-        "server_debian_password" => "#{database_config["production"]["password"]}",
-        "server_root_password" => "#{database_config["production"]["password"]}",
-        "server_repl_password" => "#{database_config["production"]["password"]}"
-      },
-      "run_list" => [ "recipe[mysql::server]","recipe[mysql::client]","role[apache2]","recipe[finalize]" ]
-    }
-    File.open(File.join("chef", "server_production.json"), "w+") do |f|
-      f.write(server_production_hash.to_json)
-    end
-    
     production_hash = { 
-      "config" => {
+      "site" => {
         "name" => "#{application_name}",
         "server_name" => "www.#{domain_name}",
         "server_aliases" => [ "#{domain_name}" ],
         "docroot" => "/var/www/#{application_name}/current/public"
       },
-      "run_list" => [ "recipe[finalize::site]" ]
+      "mysql" => {
+        "server_debian_password" => "#{database_config["production"]["password"]}",
+        "server_root_password" => "#{database_config["production"]["password"]}",
+        "server_repl_password" => "#{database_config["production"]["password"]}",
+        "host" => "localhost",
+        "database" => "#{database_config["production"]["database"]}",
+        "username" => "#{database_config["production"]["username"]}",
+        "password" => "#{database_config["production"]["password"]}"
+      },
+      "run_list" => [ "recipe[mysql::server]","recipe[mysql::client]","role[apache2]","recipe[finalize]","recipe[finalize::site]"  ]
     }
     File.open(File.join("chef", "production.json"), "w+") do |f|
       f.write(production_hash.to_json)

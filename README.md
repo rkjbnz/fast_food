@@ -16,9 +16,7 @@
     
     # After filling out the details run
     
-    cap server_production setup:server
-    
-    cap setup:site
+    cap setup:go
     
     #done!
     # If you haven't configured your DNS add a line to your hosts file for the domain name and ip address you entered at the prompt
