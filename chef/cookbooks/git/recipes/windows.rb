@@ -1,7 +1,8 @@
 #
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Copyright:: Copyright (c) 2011 Opscode, Inc.
-# License:: Apache License, Version 2.0
+# Cookbook Name:: git
+# Recipe:: windows
+#
+# Copyright 2008-2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,20 +15,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-module Opscode
-  module Mysql
-    module Helpers
+windows_package node['git']['display_name'] do
+  action :install
+  source node['git']['url']
+  checksum node['git']['checksum']
+  installer_type :inno
+end
 
-      def debian_before_squeeze?
-        (node['platform'] == "debian") && (node['platform_version'].to_f < 6.0)
-      end
+# Git is installed to Program Files (x86) on 64-bit machines and
+# 'Program Files' on 32-bit machines
+PROGRAM_FILES = ENV['ProgramFiles(x86)'] || ENV['ProgramFiles']
 
-      def ubuntu_before_lucid?
-        (node['platform'] == "ubuntu") && (node['platform_version'].to_f < 10.0)
-      end
-
-    end
-  end
+windows_path "#{ PROGRAM_FILES }\\Git\\Cmd" do
+  action :add
 end
