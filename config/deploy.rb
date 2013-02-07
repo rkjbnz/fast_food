@@ -40,6 +40,10 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
+  
+  task :seed do
+    run "cd #{current_path}; bundle exec rake db:seed RAILS_ENV=#{rails_env}"
+  end
 
 end
 
@@ -93,3 +97,5 @@ namespace :setup do
   end
   
 end
+
+after "deploy:cold", "deploy:seed"
