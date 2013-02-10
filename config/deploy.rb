@@ -45,13 +45,14 @@ namespace :bootstrap do
   
   task :init do
     run("apt-get -y update")
-    run("apt-get -y install build-essential zlib1g-dev libssl-dev libreadline5-dev libyaml-dev")
+    run("apt-get -y install build-essential zlib1g-dev libssl-dev libreadline5-dev libyaml-dev libxslt-dev libxml2-dev")
     run("wget ftp://ftp.ruby-lang.org/pub/ruby/1.9/#{ruby_string}.tar.gz")
     run("tar -xvzf #{ruby_string}.tar.gz")
     run("cd #{ruby_string} && ./configure --prefix=/usr/local")
     run("cd #{ruby_string} && make")
     run("cd #{ruby_string} && make install")
-    run("gem install chef bundler --no-ri --no-rdoc")
+    run("gem install chef -v '~> 10.18.2' --no-ri --no-rdoc")
+    run("gem install bundler --no-ri --no-rdoc")
     run("rm -rf /var/chef")
     system("tar czf 'chef.tar.gz' -C chef/ .")
     upload("chef.tar.gz", "/var/", :via => :scp)
