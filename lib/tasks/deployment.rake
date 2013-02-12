@@ -79,7 +79,7 @@ namespace :deployment do
       f.write(production_hash.to_json)
     end
 
-    puts "\nDone! Now run: cap server_production setup:server\n\n"
+    puts "\nDone! Now run: cap setup:go\n\n"
   end
 
   # Random alphanumeric characters.
@@ -90,7 +90,7 @@ namespace :deployment do
 
   # Transforms input into something the config can use.
   def tidy_input(application_name)
-    input = application_name.chomp.downcase
+    input = application_name.chomp
     input.gsub! /[^a-zA-Z0-9_\-\.\:\/\@]/, ''
     input.gsub! /[\s\-]/, '_'
     input

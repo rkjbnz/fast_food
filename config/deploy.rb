@@ -10,7 +10,7 @@ set :default_shell, "bash"
 default_run_options[:pty] = true 
 ssh_options[:forward_agent] = true
 
-set :ruby_string, "ruby-1.9.3-p374"
+set :ruby_version, "ruby-1.9.3-p374"
 
 set :application, application_config["application"]
 set :repository,  application_config["repository"]
@@ -44,13 +44,7 @@ end
 namespace :bootstrap do
   
   task :init do
-    run("apt-get -y update")
-    run("apt-get -y install build-essential zlib1g-dev libssl-dev libreadline5-dev libyaml-dev libxslt-dev libxml2-dev")
-    run("wget ftp://ftp.ruby-lang.org/pub/ruby/1.9/#{ruby_string}.tar.gz")
-    run("tar -xvzf #{ruby_string}.tar.gz")
-    run("cd #{ruby_string} && ./configure --prefix=/usr/local")
-    run("cd #{ruby_string} && make")
-    run("cd #{ruby_string} && make install")
+    run("curl -L ubuntu.sh #{ruby_version} | bash")
     run("gem install net-ssh -v '~> 2.2.2' --no-ri --no-rdoc")
     run("gem install net-ssh-multi -v '1.1' --no-ri --no-rdoc")
     run("gem install net-ssh-gateway -v '1.1.0' --no-ri --no-rdoc")
@@ -61,8 +55,7 @@ namespace :bootstrap do
     upload("chef.tar.gz", "/var/", :via => :scp)
     run("mkdir -p /var/chef")
     run("cd /var/ && sudo tar xzf 'chef.tar.gz' -C /var/chef")
-    
-    print "Server config done! Now commit and push your changes and run: cap setup:site"
+    system("rm chef.tar.gz")
   end
   
 end
