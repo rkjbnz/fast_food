@@ -1,10 +1,29 @@
-# Fast Food
+## Fast Food
+
+Fast Food is way to easily setup a fresh server with a complete Rails stack.
+
+It installs Ruby, Git, MySql, Apache, Passenger and Imagemagick.
 
 ## Installation    
 
-    gem "fast_food", :git => "git@github.com:rkjbnz/fast_food.git"
-    
-    bundle install
+```ruby
+gem 'fast_food', :git => 'git@github.com:rkjbnz/fast_food.git'
+```
+
+Run the bundle command to install it.
+
+After you install fast_food and add it to your Gemfile, you need to run the rake task:
+
+```console
+rake deployment:setup
+```
+
+Follow the prompts, you will be asked to supply:
+
+Application Name: `myapp`
+Repository Path: `user@server:/path/to/repo.git`
+Domain Name: `myapp.com`
+Server ip address
 
 ## Usage
 
