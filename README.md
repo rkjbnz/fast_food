@@ -4,7 +4,7 @@
 
     gem "fast_food", :git => "git@github.com:rkjbnz/fast_food.git"
     
-    bundle install (bundle update if you run into a dependancy issue)
+    bundle install
 
 ## Usage
 
