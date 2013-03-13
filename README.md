@@ -1,6 +1,6 @@
 # Fast Food
 
-Fast Food is a way to easily setup a fresh server with a complete Rails stack.
+Fast Food is a way to easily setup a fresh server with a complete Rails stack and deploy your application.
 
 It installs Ruby, Git, MySql, Apache, Passenger and Imagemagick.
 
