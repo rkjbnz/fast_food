@@ -73,9 +73,9 @@ namespace :chef do
   end
 end
 
-namespace :setup do
+namespace :fast_food do
   
-  task :go do
+  task :deploy do
     transaction do
       bootstrap.init
       chef.default

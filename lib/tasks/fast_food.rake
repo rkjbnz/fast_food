@@ -1,4 +1,4 @@
-namespace :deployment do
+namespace :fast_food do
 
   require 'yaml'
   require 'json'
@@ -73,13 +73,13 @@ namespace :deployment do
         "username" => "#{database_config["production"]["username"]}",
         "password" => "#{database_config["production"]["password"]}"
       },
-      "run_list" => [ "recipe[mysql::server]","recipe[mysql::client]","role[apache2]","recipe[finalize]","recipe[finalize::site]"  ]
+      "run_list" => [ "recipe[mysql::server]","recipe[mysql::client]","role[apache2]","recipe[fast_food]","recipe[fast_food::site]"  ]
     }
     File.open(File.join("chef", "production.json"), "w+") do |f|
       f.write(production_hash.to_json)
     end
 
-    puts "\nDone! Now run: cap setup:go\n\n"
+    puts "\nDone! Now run: cap fast_food:deploy\n\n"
   end
 
   # Random alphanumeric characters.

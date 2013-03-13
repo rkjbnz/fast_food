@@ -1,41 +1,60 @@
-## Fast Food
+# Fast Food
 
-Fast Food is way to easily setup a fresh server with a complete Rails stack.
+Fast Food is a way to easily setup a fresh server with a complete Rails stack.
 
 It installs Ruby, Git, MySql, Apache, Passenger and Imagemagick.
 
 ## Installation    
 
-```ruby
+```
 gem 'fast_food', :git => 'git@github.com:rkjbnz/fast_food.git'
 ```
 
 Run the bundle command to install it.
 
-After you install fast_food and add it to your Gemfile, you need to run the rake task:
+## Setup
 
-```console
-rake deployment:setup
+After its installed run the rake task:
+
+```
+rake fast_food:setup
 ```
 
 Follow the prompts, you will be asked to supply:
 
 Application Name: `myapp`
+
 Repository Path: `user@server:/path/to/repo.git`
+
 Domain Name: `myapp.com`
-Server ip address
 
-## Usage
+Server IP Address: `server ip`
 
-    # Run this task to setup your initial configuration. This can be run on a completely fresh server
-    # It installs and sets up ruby, git, mysql, apache, passenger and imagemagick. You will need your server ip address. Everything is done as root.
-    # (tested on ubuntu 10.04, 11.04 you might have to change the deploy.rb file for different versions and distros)
-    
-    rake deployment:setup (Follow the prompts)
-    
-    # After filling out the details run
-    
-    cap setup:go
-    
-    #done!
-    # If you haven't configured your DNS add a line to your hosts file for the domain name and ip address you entered at the prompt
+After filling these out you should commit your changes.
+
+## Deployment
+
+To deploy the complete stack in one go run `cap fast_food:deploy` If you have your ssh keys setup on the server and repo location you won't have to do anything, the process should complete without intervention. If you haven't setup your keys you will need to enter in your password at various stages.
+
+## Complete
+
+This task will install Ruby and some initial Gems then use Chef-solo to setup the server. After this is done it will do a standard cap deploy:cold and then seed the db. Once the app is deployed, Chef-Solo will then configure the Passenger-Apache vhost.
+
+You can run the deployment task as much as you want, though it will try and install the full stack every time and it will seed the db (if you use a seeds file)
+
+If you make changes to your app you can just use the standard Capistrano tasks `cap deploy:update` and `cap deploy:migrate` to deploy changes.
+
+If you haven't configured your DNS add a line to your hosts file for the domain name and ip address you entered at the prompt
+
+It does everything as root, if this is not ideal setup another user on your server and change the `deploy.rb` file
+
+If you run into errors it could be an issue with the Chef-solo recipe for the particular server you have setup. You can change out recipes or add new ones by dropping them into the chef/cookbooks folder and update the runlist in the `chef/production.json` file
+
+Hey this is fast food after all not fine dining!
+
+## Todo
+
+* Support for more server versions and distros. Only tested on Ubuntu 10.04. For later versions you will have to alter the `ubuntu.sh` file in the config/deploy folder
+* Support for multiple stages
+* Support for different server roles
+* Setup other services such as backups to server/s3
