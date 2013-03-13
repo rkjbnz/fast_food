@@ -34,7 +34,7 @@ After filling these out you should commit your changes.
 
 ## Deployment
 
-To deploy the complete stack in one go run `cap fast_food:deploy` If you have your ssh keys setup on the server and repo location you won't have to do anything, the process should complete without intervention. If you haven't setup your keys you will need to enter in your password at various stages.
+To deploy the complete stack in one go run `cap fast_food:full` If you have your ssh keys setup on the server and repo location you won't have to do anything, the process should complete without intervention. If you haven't setup your keys you will need to enter in your password at various stages.
 
 ## Complete
 
@@ -48,13 +48,13 @@ If you haven't configured your DNS add a line to your hosts file for the domain 
 
 It does everything as root, if this is not ideal setup another user on your server and change the `deploy.rb` file
 
-If you run into errors it could be an issue with the Chef-solo recipe for the particular server you have setup. You can change out recipes or add new ones by dropping them into the chef/cookbooks folder and update the runlist in the `chef/production.json` file
+If you run into errors it could be an issue with the Chef-solo recipe for the particular server you have setup. You can change out recipes or add new ones by dropping them into the chef/cookbooks folder and updating the runlist in the `chef/production.json` file.
 
 Hey this is fast food after all not fine dining!
 
 ## Todo
 
-* Support for more server versions and distros. Only tested on Ubuntu 10.04. For later versions you will have to alter the `ubuntu.sh` file in the config/deploy folder
+* Support for more server versions and distros. Only tested on Ubuntu 10.04 and Ubuntu 12.10. For 12.10 you will have to alter the `ubuntu.sh` file in the config/deploy folder and replace the package `libreadline5-dev` with `libreadline-gplv2-dev lib64readline-gplv2-dev`
 * Support for multiple stages
 * Support for different server roles
 * Setup other services such as backups to server/s3
