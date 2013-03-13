@@ -5,9 +5,12 @@ namespace :fast_food do
 
   desc "Configures your application for initial deployment. Inserts database and deployment configuration."
   task :setup do
+    
     spec = Gem::Specification.find_by_name("fast_food")
     gem_root = spec.gem_dir
     
+    
+    # 
     `Capify . && mkdir -p #{Rails.root}/chef && cp -R #{gem_root}/chef/* #{Rails.root}/chef && cp -R #{gem_root}/config/* #{Rails.root}/config`
     
     print "\n\nPlease enter an application name (one word, or use underscores): "
