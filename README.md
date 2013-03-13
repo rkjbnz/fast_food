@@ -6,7 +6,7 @@ It installs Ruby, Git, MySql, Apache, Passenger and Imagemagick.
 
 ## Installation    
 
-```
+```ruby
 gem 'fast_food', :git => 'git@github.com:rkjbnz/fast_food.git'
 ```
 
@@ -16,7 +16,7 @@ Run the bundle command to install it.
 
 After its installed run the rake task:
 
-```
+```console
 rake fast_food:setup
 ```
 
