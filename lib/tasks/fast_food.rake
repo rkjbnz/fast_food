@@ -79,7 +79,7 @@ namespace :fast_food do
       f.write(production_hash.to_json)
     end
 
-    puts "\nDone! Now run: cap fast_food:deploy\n\n"
+    puts "\nDone! Now run: cap fast_food:full\n\n"
   end
 
   # Random alphanumeric characters.
