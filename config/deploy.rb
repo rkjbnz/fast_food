@@ -41,9 +41,9 @@ namespace :deploy do
 
 end
 
-namespace :bootstrap do
+namespace :servers do
   
-  task :init do
+  task :bootstrap do
     run("rm -rf /var/chef")
     run("mkdir -p /var/chef")
     upload("config/deploy/ubuntu.sh", "/var/chef", :via => :scp)
@@ -59,14 +59,11 @@ namespace :bootstrap do
     system("rm chef.tar.gz")
   end
   
-end
-
-namespace :chef do
-  task :default do
+  task :setup do
     sudo("/bin/bash -c 'cd /var/chef && #{chef_binary} -c solo.rb -j #{stage}.json'")
   end
   
-  task :finalize do
+  task :complete do
     sudo("/bin/bash -c 'cd /var/chef && #{chef_binary} -c solo.rb -j #{stage}.json'")
     sudo("rm -rf /var/chef.tar.gz")
     sudo("rm -rf /var/chef")
@@ -75,13 +72,13 @@ end
 
 namespace :fast_food do
   
-  task :deploy do
+  task :full do
     transaction do
-      bootstrap.init
-      chef.default
+      servers.bootstrap
+      servers.setup
       deploy.setup
       deploy.cold
-      chef.finalize
+      servers.complete
     end
   end
   
