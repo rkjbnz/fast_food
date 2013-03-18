@@ -52,9 +52,9 @@ If you run into errors it could be an issue with the Chef-solo recipe for the pa
 
 Hey this is fast food after all not fine dining!
 
-## Installing Cookbooks
+## Installing Additional Cookbooks
 
-If you want to install additional servers such as Memcached, you can just download the Chef cookbook and put it in the chef folder then run `cap servers:install`
+If you want to install additional servers such as Memcached, you can just download the Chef cookbook and put it in the chef folder, update the runlist in the `chef/production.json` file then run `cap servers:install`
 
 ## Tested on
 
