@@ -56,7 +56,7 @@ Hey this is fast food after all not fine dining!
 
 If you want to install additional servers such as Memcached, you can just download the Chef cookbook and put it in the chef folder then run `cap servers:install`
 
-## Tested on:
+## Tested on
 
 * Ubuntu 10.04 (For 10.04 you will have to alter the `ubuntu.sh` file in the config/deploy folder and replace the packages `libreadline-gplv2-dev lib64readline-gplv2-dev` with `libreadline5-dev`)
 * Ubuntu 12.10 
