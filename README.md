@@ -36,7 +36,7 @@ After filling these out you should commit your changes.
 
 To deploy the complete stack in one go run `cap fast_food:full` If you have your ssh keys setup on the server and repo location you won't have to do anything, the process should complete without intervention. If you haven't setup your keys you will need to enter in your password at various stages.
 
-## Complete
+## Information
 
 This task will install Ruby and some initial Gems then use Chef-solo to setup the server. After this is done it will do a standard cap deploy:cold and then seed the db. Once the app is deployed, Chef-Solo will then configure the Passenger-Apache vhost.
 
@@ -52,9 +52,22 @@ If you run into errors it could be an issue with the Chef-solo recipe for the pa
 
 Hey this is fast food after all not fine dining!
 
+## Installing Addition Modules
+
+
+
+## Tested on:
+
+* Ubuntu 10.04 (For 10.04 you will have to alter the `ubuntu.sh` file in the config/deploy folder and replace the packages `libreadline-gplv2-dev lib64readline-gplv2-dev` with `libreadline5-dev`)
+* Ubuntu 12.10 
+* CentOS 6.3
+* CentOS 5.8
+
+I have found that if deploying to a x64 server if the server has minimal resources such as 512 ram it could run into errors installing some of the modules. Try increasing the resources or perhaps use a x32 server.
+
 ## Todo
 
-* Support for more server versions and distros. Only tested on Ubuntu 10.04 and Ubuntu 12.10. For 12.10 you will have to alter the `ubuntu.sh` file in the config/deploy folder and replace the package `libreadline5-dev` with `libreadline-gplv2-dev lib64readline-gplv2-dev`
+* Support for more server versions and distros.
 * Support for multiple stages
 * Support for different server roles
 * Setup other services such as backups to server/s3

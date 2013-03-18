@@ -3,3 +3,4 @@ application: REPLACE_ME
 domain: 
 server_ip: 
 repository: 
+server_os: ubuntu

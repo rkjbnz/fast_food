@@ -46,8 +46,8 @@ namespace :servers do
   task :bootstrap do
     run("rm -rf /var/chef")
     run("mkdir -p /var/chef")
-    upload("config/deploy/ubuntu.sh", "/var/chef", :via => :scp)
-    run("sudo bash /var/chef/ubuntu.sh #{ruby_version}")
+    upload("config/deploy/#{application_config["server_os"]}.sh", "/var/chef", :via => :scp)
+    run("yes | sudo bash /var/chef/#{application_config["server_os"]}.sh #{ruby_version}")
     run("gem install net-ssh -v '~> 2.2.2' --no-ri --no-rdoc")
     run("gem install net-ssh-multi -v '1.1' --no-ri --no-rdoc")
     run("gem install net-ssh-gateway -v '1.1.0' --no-ri --no-rdoc")
@@ -57,6 +57,18 @@ namespace :servers do
     upload("chef.tar.gz", "/var/", :via => :scp)
     run("cd /var/ && sudo tar xzf 'chef.tar.gz' -C /var/chef")
     system("rm chef.tar.gz")
+  end
+  
+  task :install do
+    run("rm -rf /var/chef")
+    run("mkdir -p /var/chef")
+    system("tar czf 'chef.tar.gz' -C chef/ .")
+    upload("chef.tar.gz", "/var/", :via => :scp)
+    run("cd /var/ && sudo tar xzf 'chef.tar.gz' -C /var/chef")
+    system("rm chef.tar.gz")
+    sudo("/bin/bash -c 'cd /var/chef && #{chef_binary} -c solo.rb -j #{stage}.json'")
+    sudo("rm -rf /var/chef.tar.gz")
+    sudo("rm -rf /var/chef")
   end
   
   task :setup do
