@@ -4,6 +4,20 @@ Fast Food is a way to easily setup a fresh server with a complete Rails stack an
 
 It installs Ruby, Git, MySql, Apache, Passenger and Imagemagick.
 
+## Requirements
+
+fast food assumes you have a vps server setup, know the IP address and can login to it. Also a git repository setup somewhere which you will need to enter in during the rake setup phase.
+
+During the standard deploy phase of capistrano it will try and compile the assets. It will error at this point if you do not have a js runtime setup, quickest thing to do is to add
+
+```ruby
+gem 'therubyracer', :platforms => :ruby
+```
+
+to your Gemfile in the assets group, this line might even be commented out, just uncomment it.
+
+Because fast food uses mysql, it expects the mysql2 gem to be present in your gem file also.
+
 ## Installation    
 
 ```ruby
@@ -67,7 +81,7 @@ I have found that if deploying to a x64 server if the server has minimal resourc
 
 ## Todo
 
-* Support for more server versions and distros.
+* Support for more dbs
 * Support for multiple stages
 * Support for different server roles
 * Setup other services such as backups to server/s3
